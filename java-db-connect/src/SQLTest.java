@@ -25,7 +25,7 @@ public class SQLTest {
     public static void main(String[] args) {
         Connection con = null;
 
-        String server = "localhost"; // 서버 주소
+        String server = "jdbc:mysql://localhost:3306/db_study?useSSL=false"; //서버 주소
         String user_name = "root"; //  접속자 id
         String password = "abc123"; // 접속자 pw
 
@@ -39,16 +39,12 @@ public class SQLTest {
 
         // 접속
         try {
-            con = DriverManager.getConnection("jdbc:mysql://" + server + "/" + "?useSSL=false", user_name, password);
+            con = DriverManager.getConnection(server, user_name, password);
             // DriverManager.getConnection(url, userID, password) : JDBC 연결 커넥션 생성
-
-            String select_db = "use db_study";
-            Statement select_db_stmt = con.createStatement();
-            select_db_stmt.executeQuery(select_db);
 
             //select (db 데이터 조회)
             //sql 쿼리문 생성
-            String sql = "select a, b from test";
+            String sql = "select * from test";
 
             //Statement 생성
             Statement statement = con.createStatement();
@@ -73,17 +69,12 @@ public class SQLTest {
                 //arrayList에 계속 더해서 list를 생성
                 arrayList.add(data);
             }
-
+            // 결과값을 출력
             for(int i = 0; i < arrayList.size(); i++){
                 System.out.println(i + "행 a열 의 값 : " + arrayList.get(i).getStr());
                 System.out.println(i + "행 b열 의 값 : " + arrayList.get(i).getInt());
             }
-            
-            
-            // System.out.println("연결 완료!");
-            
-            
-            
+
         } catch(SQLException e) {
             System.err.println("연결 오류" + e.getMessage());
             e.printStackTrace();
