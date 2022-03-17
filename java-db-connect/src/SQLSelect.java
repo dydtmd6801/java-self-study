@@ -1,7 +1,5 @@
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
-
-import javax.xml.crypto.Data;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
