@@ -1,3 +1,5 @@
+package cliDBConnect;
+
 import java.sql.*;
 import java.util.ArrayList;
 
