@@ -82,27 +82,12 @@ public class guiDBConnect extends JFrame {
             JLabel lgrade;
             JLabel total;
 
-
             for(int i = 0; i < sD.size(); i++){
                 lname = new JLabel("이름 : " + sD.get(i).getName());
                 lage = new JLabel(", 나이 : " + sD.get(i).getAge());
                 lgrade = new JLabel(", 학년 : " + sD.get(i).getGrade());
                 total = new JLabel("" + lname.getText() + lage.getText() + lgrade.getText() + "\n");
                 p.add(total);
-//                p.add();
-//                lname[i].setText(""+i);
-//                System.out.println("name : " + sD.get(i).getName());
-//                System.out.println("age : " + sD.get(i).getAge());
-//                System.out.println("grade : " + sD.get(i).getGrade());
-
-//                lname[i].setText(sD.get(i).getName());
-//                lage[i].setText(""+sD.get(i).getAge());
-//                lgrade[i].setText(""+sD.get(i).getGrade());
-//
-//                p.add(lname[i]);
-//                p.add(lage[i]);
-//                p.add(lgrade[i]);
-//                System.out.println(lname[i]);
             }
 
         } catch (SQLException e) {
