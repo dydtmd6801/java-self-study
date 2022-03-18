@@ -1,6 +1,9 @@
 package guiDBConect;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -34,13 +37,25 @@ class studentData{
     }
 }
 
-public class guiDBConnect extends JFrame {
+public class guiDBConnect extends JFrame implements ActionListener {
     Connection conn = null;
+
     private String server = "jdbc:mysql://localhost:3306/db_study?useSSL=false";
     private String userId = "root";
     private String userWd = "abc123";
 
-    private JPanel p = new JPanel();
+    private Font font = new Font("Noto sans KR", Font.PLAIN, 14);
+    private Font btn_font = new Font("Noto sans KR", Font.BOLD, 18);
+
+    private JPanel select = new JPanel();
+    private JPanel display = new JPanel();
+
+    private JButton btn_name = new JButton("이름 정렬");
+    private JButton btn_age = new JButton("나이 정렬");
+    private JButton btn_grade = new JButton("학년 정렬");
+    private JButton exit = new JButton("종료");
+
+    String sql = "select * from selectex";
 
     guiDBConnect() {
         this.setTitle("DB연결");
@@ -52,7 +67,21 @@ public class guiDBConnect extends JFrame {
     }
 
     private void formDesign() {
-        this.add(p);
+        this.setLayout(new BorderLayout());
+        this.add(select, BorderLayout.NORTH);
+        this.add(display, BorderLayout.CENTER);
+
+        select.setLayout(new GridLayout(0,4));
+        btn_name.setFont(btn_font);
+        btn_age.setFont(btn_font);
+        btn_grade.setFont(btn_font);
+        exit.setFont(btn_font);
+        select.add(btn_name);
+        select.add(btn_age);
+        select.add(btn_grade);
+        select.add(exit);
+
+        display.setLayout(new BoxLayout(display, BoxLayout.Y_AXIS));
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -64,7 +93,6 @@ public class guiDBConnect extends JFrame {
         try {
             conn = DriverManager.getConnection(server, userId, userWd);
 
-            String sql = "select * from selectex";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             ArrayList<studentData> sD = new ArrayList<studentData>();
@@ -77,29 +105,39 @@ public class guiDBConnect extends JFrame {
                 sD.add(studentdata);
             }
 
-            JLabel lname;
-            JLabel lage;
-            JLabel lgrade;
+            JLabel lname = new JLabel();
+            JLabel lage = new JLabel();
+            JLabel lgrade = new JLabel();
             JLabel total;
 
             for(int i = 0; i < sD.size(); i++){
-                lname = new JLabel("이름 : " + sD.get(i).getName());
-                lage = new JLabel(", 나이 : " + sD.get(i).getAge());
-                lgrade = new JLabel(", 학년 : " + sD.get(i).getGrade());
-                total = new JLabel("" + lname.getText() + lage.getText() + lgrade.getText() + "\n");
-                p.add(total);
+                lname.setText("이름 : " + sD.get(i).getName());
+                lage.setText(", 나이 : " + sD.get(i).getAge());
+                lgrade.setText(", 학년 : " + sD.get(i).getGrade());
+                total = new JLabel(lname.getText() + lage.getText() + lgrade.getText());
+                total.setFont(font);
+                display.add(total);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void eventHandler() {
-
+        exit.addActionListener(this);
+        btn_name.addActionListener(this);
+        btn_age.addActionListener(this);
+        btn_grade.addActionListener(this);
     }
 
     public static void main(String[] args) {
         new guiDBConnect();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(exit.getText().equals("종료")){
+            System.exit(0);
+        }
     }
 }
