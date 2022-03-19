@@ -44,8 +44,8 @@ public class guiDBConnect extends JFrame implements ActionListener {
     private String userId = "root";
     private String userWd = "abc123";
 
-    private Font font = new Font("Noto sans KR", Font.PLAIN, 14);
-    private Font btn_font = new Font("Noto sans KR", Font.BOLD, 18);
+    private Font font = new Font("Noto sans KR", Font.PLAIN, 12);
+    private Font btn_font = new Font("Noto sans KR", Font.BOLD, 16);
 
     private JPanel select = new JPanel();
     private JPanel display = new JPanel();
@@ -54,8 +54,6 @@ public class guiDBConnect extends JFrame implements ActionListener {
     private JButton btn_age = new JButton("나이 정렬");
     private JButton btn_grade = new JButton("학년 정렬");
     private JButton exit = new JButton("종료");
-
-    String sql = "select * from selectex";
 
     guiDBConnect() {
         this.setTitle("DB연결");
@@ -89,8 +87,50 @@ public class guiDBConnect extends JFrame implements ActionListener {
             System.out.println("드라이버 로드 에러");
             e.printStackTrace();
         }
+    }
 
+    private void eventHandler() {
+        exit.addActionListener(this);
+        btn_name.addActionListener(this);
+        btn_age.addActionListener(this);
+        btn_grade.addActionListener(this);
+    }
+
+    public static void main(String[] args) {
+        new guiDBConnect();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == exit){
+            this.dispose();
+        }
+        if(e.getSource() == btn_name) {
+            btn_name.setText("이름 정렬중");
+            sql_result(1);
+        }
+        if(e.getSource() == btn_age){
+            btn_age.setText("나이 정렬중");
+            sql_result(2);
+        }
+        if(e.getSource() == btn_grade){
+            btn_grade.setText("학년 정렬중");
+            sql_result(3);
+        }
+    }
+
+    public void sql_result(int order){
         try {
+            String sql = null;
+            if(order == 1){
+                sql = "select * from selectex order by name desc";
+            } else if (order == 2) {
+                sql = "select * from selectex order by age desc";
+            } else if (order == 3) {
+                sql = "select * from selectex order by grade desc";
+            }
+            System.out.println(sql);
+
             conn = DriverManager.getConnection(server, userId, userWd);
 
             Statement stmt = conn.createStatement();
@@ -120,24 +160,6 @@ public class guiDBConnect extends JFrame implements ActionListener {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void eventHandler() {
-        exit.addActionListener(this);
-        btn_name.addActionListener(this);
-        btn_age.addActionListener(this);
-        btn_grade.addActionListener(this);
-    }
-
-    public static void main(String[] args) {
-        new guiDBConnect();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(exit.getText().equals("종료")){
-            System.exit(0);
         }
     }
 }
