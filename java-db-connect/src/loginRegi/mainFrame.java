@@ -42,6 +42,16 @@ public class mainFrame extends JFrame implements ActionListener {
             login.loginPage.setVisible(false);
             regi.regiPage.setVisible(true);
         }
+        if(e.getSource() == login.loginBtn){
+            String idData = login.userName.getText();
+            StringBuffer pwData = new StringBuffer();
+            char[] pwCharData = login.passWord.getPassword();
+            for(int i = 0; i < pwCharData.length; i++){
+                pwData.append(pwCharData[i]);
+            }
+            String loginSQL = "select * from userInfo where id='" + idData + "'pw='" + pwData + "'";
+
+        }
         if(e.getSource() == regi.cancel){
             login.loginPage.setVisible(true);
             regi.regiPage.setVisible(false);
