@@ -4,10 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class mainFrame extends JFrame implements ActionListener {
+    Connection conn = null;
+
     Login login = new Login();
     Register regi = new Register();
+
+    String server = "jdbc:mysql://localhost:3306/loginregi?useSSL=false";
+    String username = "root";
+    String password = "abc123";
 
     mainFrame() {
         this.setTitle("mainPage");
@@ -23,6 +30,13 @@ public class mainFrame extends JFrame implements ActionListener {
         this.setLayout(new CardLayout());
         this.add(login.loginPage);
         this.add(regi.regiPage);
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("드라이버 로드 에러");
+            e.printStackTrace();
+        }
     }
 
     private void eventHandler() {
@@ -49,12 +63,30 @@ public class mainFrame extends JFrame implements ActionListener {
             for(int i = 0; i < pwCharData.length; i++){
                 pwData.append(pwCharData[i]);
             }
-            String loginSQL = "select * from userInfo where id='" + idData + "'pw='" + pwData + "'";
+            String loginSQL = "select * from userInfo where id='" + idData + "' and pw='" + pwData + "'";
 
+            loginFunc(loginSQL);
         }
         if(e.getSource() == regi.cancel){
             login.loginPage.setVisible(true);
             regi.regiPage.setVisible(false);
+        }
+    }
+
+    public void loginFunc(String sql) {
+        try{
+            conn = DriverManager.getConnection(server, username, password);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if(rs.next()){
+                JOptionPane.showMessageDialog(null, "로그인 되었습니다.", "로그인 상태", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "로그인 정보가 맞지않습니다.", "로그인 상태", JOptionPane.PLAIN_MESSAGE);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

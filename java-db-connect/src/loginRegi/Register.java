@@ -30,7 +30,7 @@ public class Register extends JFrame {
         regiPage.setLayout(null);
 
         title.setFont(titleFont);
-        title.setBounds(100,20,200,20);
+        title.setBounds(100,25,200,20);
 
         idText.setFont(font);
         idText.setBounds(100, 60, 200, 20);
@@ -64,7 +64,6 @@ public class Register extends JFrame {
         cancel.setBorder(emptyBorder);
         cancel.setBackground(Color.black);
         cancel.setForeground(Color.white);
-
 
         regiPage.add(title);
         regiPage.add(idText);

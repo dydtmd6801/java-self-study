@@ -32,7 +32,7 @@ public class Login extends JFrame {
         loginPage.setLayout(null);
 
         title.setFont(titleFont);
-        title.setBounds(100, 20, 200,20);
+        title.setBounds(100, 35, 200,20);
 
         idText.setFont(font);
         idText.setBounds(100, 80, 200, 20);
