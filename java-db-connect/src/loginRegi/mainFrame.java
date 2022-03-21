@@ -5,9 +5,11 @@ import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.*;
 
-public class mainFrame extends JFrame implements ActionListener {
+public class mainFrame extends JFrame implements ActionListener, KeyListener {
     Connection conn = null;
 
     boolean checkDupl = false;
@@ -48,6 +50,7 @@ public class mainFrame extends JFrame implements ActionListener {
         regi.cancel.addActionListener(this);
         regi.check.addActionListener(this);
         regi.register.addActionListener(this);
+        regi.idTextField.addKeyListener(this);
     }
 
     public static void main(String[] args) {
@@ -166,5 +169,20 @@ public class mainFrame extends JFrame implements ActionListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        checkDupl = false;
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        checkDupl = false;
     }
 }
